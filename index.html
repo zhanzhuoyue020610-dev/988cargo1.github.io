@@ -37,7 +37,7 @@
         }
         /* 增强品牌介绍卡片背景色 */
         .highlight-gradient-cyan {
-            background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(6, 182, 212, 0.25));
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.3), rgba(6, 182, 212, 0.4));
         }
         .highlight-gradient-green {
             background: linear-gradient(135deg, rgba(34, 197, 94, 0), rgba(34, 197, 94, 0.05));
@@ -131,6 +131,13 @@
         /* 俄语排版优化（增加行高，提升可读性） */
         .lang-ru p, .lang-ru span, .lang-ru h3 {
             line-height: 1.6;
+        }
+        /* Telegram按钮样式优化 */
+        .telegram-btn {
+            background-color: #26A5E4;
+        }
+        .telegram-btn:hover {
+            background-color: #1E90FF;
         }
     </style>
 </head>
@@ -551,7 +558,7 @@
                     <p class="text-gray-700 mb-6" data-lang="zh">立即联系我们，获取专属物流方案</p>
                     <p class="text-gray-700 mb-6" data-lang="ru">Свяжитесь с нами сейчас, чтобы получить индивидуальное логистическое решение</p>
                     <p class="text-gray-700 mb-6" data-lang="en">Contact us now to get an exclusive logistics solution</p>
-                    <div class="flex flex-col sm:flex-row justify-center gap-6">
+                    <div class="flex flex-col sm:flex-row justify-center gap-6 flex-wrap">
                         <a href="tel:+8615157938188" class="flex items-center justify-center bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 px-6 rounded-full transition-colors">
                             <i class="fa-solid fa-phone mr-2"></i>
                             <span data-lang="zh">联系电话：+86 151 5793 8188</span>
@@ -569,6 +576,13 @@
                             <span data-lang="zh">邮箱：renlinguang988@gmail.com</span>
                             <span data-lang="ru">Эл. почта：renlinguang988@gmail.com</span>
                             <span data-lang="en">Email：renlinguang988@gmail.com</span>
+                        </a>
+                        <!-- 新增Telegram群组按钮 -->
+                        <a href="https://t.me/YiWuChinaCargo988" target="_blank" class="flex items-center justify-center telegram-btn text-white font-semibold py-3 px-6 rounded-full transition-colors">
+                            <i class="fa-brands fa-telegram mr-2"></i>
+                            <span data-lang="zh">Telegram群组</span>
+                            <span data-lang="ru">Telegram группа</span>
+                            <span data-lang="en">Telegram Group</span>
                         </a>
                     </div>
                 </div>
