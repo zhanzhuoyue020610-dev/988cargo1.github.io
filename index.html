@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="lang-zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,23 +9,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">   
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">   
     <style>
+        /* 字体设置：中文用Inter，俄语用Montserrat（更符合俄语排版习惯） */
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', 'Montserrat', sans-serif;
             background-color: #FFFFFF;
+        }
+        .lang-ru body {
+            font-family: 'Montserrat', 'Inter', sans-serif;
         }
         .card {
             background-color: white;
             border: 1px solid #E5E7EB;
             border-radius: 1.25rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             overflow: hidden;
             position: relative;
         }
+        /* 增强开头区域颜色：鲜艳高级蓝，提升饱和度和对比度 */
         .highlight-gradient-blue {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0), rgba(59, 130, 246, 0.05));
+            background: linear-gradient(135deg, rgba(22, 93, 255, 0.1), rgba(22, 93, 255, 0.2));
+        }
+        .header-bg {
+            background-color: #165DFF; /* 鲜艳高级蓝，增强视觉冲击 */
         }
         .highlight-gradient-green {
             background: linear-gradient(135deg, rgba(34, 197, 94, 0), rgba(34, 197, 94, 0.05));
@@ -40,77 +48,166 @@
             background: linear-gradient(135deg, rgba(168, 85, 247, 0), rgba(168, 85, 247, 0.05));
         }
         .highlight-gradient-cyan {
-            background: linear-gradient(135deg, rgba(6, 182, 212, 0), rgba(6, 182, 212, 0.05));
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0), rgba(6, 182, 212, 0.08));
         }
         .highlight-gradient-indigo {
             background: linear-gradient(135deg, rgba(99, 102, 241, 0), rgba(99, 102, 241, 0.05));
         }
-        /* 产品卡片渐变区分 */
+        /* 产品卡片渐变区分（增强饱和度） */
         .product-gradient-tir {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0), rgba(59, 130, 246, 0.08));
+            background: linear-gradient(135deg, rgba(22, 93, 255, 0.05), rgba(22, 93, 255, 0.12));
         }
         .product-gradient-fast {
-            background: linear-gradient(135deg, rgba(34, 197, 94, 0), rgba(34, 197, 94, 0.08));
+            background: linear-gradient(135deg, rgba(22, 163, 74, 0.05), rgba(22, 163, 74, 0.12));
         }
         .product-gradient-value {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0), rgba(245, 158, 11, 0.08));
+            background: linear-gradient(135deg, rgba(217, 119, 6, 0.05), rgba(217, 119, 6, 0.12));
         }
         .product-gradient-belt {
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0), rgba(168, 85, 247, 0.08));
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.05), rgba(147, 51, 234, 0.12));
+        }
+        /* 语言切换按钮样式 */
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            display: flex;
+            gap: 8px;
+        }
+        .lang-btn {
+            padding: 6px 16px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .lang-btn.active {
+            background-color: white;
+            color: #165DFF;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .lang-btn:not(.active) {
+            background-color: rgba(255, 255, 255, 0.25);
+            color: white;
+        }
+        .lang-btn:hover:not(.active) {
+            background-color: rgba(255, 255, 255, 0.35);
+        }
+        /* 文本隐藏/显示控制 */
+        [data-lang="zh"], [data-lang="ru"] {
+            display: none;
+        }
+        .lang-zh [data-lang="zh"] {
+            display: block;
+        }
+        .lang-ru [data-lang="ru"] {
+            display: block;
+        }
+        /* 俄语排版优化（增加行高，提升可读性） */
+        .lang-ru p, .lang-ru span, .lang-ru h3 {
+            line-height: 1.6;
         }
     </style>
 </head>
 <body class="bg-white">
-    <div class="max-w-7xl mx-auto p-4 md:p-8">
+    <div class="max-w-7xl mx-auto p-4 md:p-8 relative">
+        <!-- 语言切换按钮 -->
+        <div class="lang-switch">
+            <button class="lang-btn active" data-target="zh">中文</button>
+            <button class="lang-btn" data-target="ru">Русский</button>
+        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
-            <!-- 主标题卡片 -->
-            <div class="card md:col-span-4 p-8 flex flex-col justify-center">
+            <!-- 主标题卡片（增强颜色，高级感鲜艳蓝） -->
+            <div class="card md:col-span-4 p-8 flex flex-col justify-center header-bg text-white">
                 <div class="absolute top-0 left-0 w-full h-full highlight-gradient-blue"></div>
                 <div class="relative">
                     <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
-                        <h1 class="text-4xl md:text-5xl font-bold text-gray-800">988 Карго</h1>
-                        <span class="text-gray-500 font-medium mt-2 md:mt-0">中俄货物运输一站式解决方案</span>
+                        <h1 class="text-4xl md:text-5xl font-bold">988 Карго</h1>
+                        <span class="font-medium mt-2 md:mt-0" data-lang="zh">中俄货物运输一站式解决方案</span>
+                        <span class="font-medium mt-2 md:mt-0" data-lang="ru">Комплексное решение для перевозки грузов между Китаем и Россией</span>
                     </div>
-                    <p class="text-xl text-gray-600">专业、高效、灵活的中国至俄罗斯物流服务，满足不同业务需求</p>
-                    <p class="text-lg text-blue-600 mt-2">Добро пожаловать в 988 Карго — ваш надежный партнер в логистике между Китаем и Россией</p>
+                    <p class="text-xl opacity-90" data-lang="zh">专业、高效、灵活的中国至俄罗斯物流服务，满足不同业务需求</p>
+                    <p class="text-xl opacity-90" data-lang="ru">Профессиональные, эффективные и гибкие логистические услуги из Китая в Россию для удовлетворения различных бизнес-запросов</p>
+                    <p class="text-lg mt-2 font-semibold" data-lang="zh">专注中俄物流，值得您的信赖</p>
+                    <p class="text-lg mt-2 font-semibold" data-lang="ru">Специализируемся на логистике Китай-Россия — заслуживаем вашего доверия</p>
                 </div>
             </div>
 
-            <!-- 品牌介绍卡片 -->
+            <!-- 品牌介绍卡片（双语扩充） -->
             <div class="card md:col-span-4 p-8">
                 <div class="absolute top-0 left-0 w-full h-full highlight-gradient-cyan"></div>
-                <div class="relative text-center">
-                    <i class="fa-solid fa-truck-ramp-box text-cyan-500 text-4xl mb-4"></i>
-                    <h2 class="text-2xl font-bold text-cyan-700 mb-3">关于我们</h2>
-                    <p class="text-gray-600 max-w-3xl mx-auto">
-                        988 Карго专注于中国至俄罗斯货物运输，整合TIR卡航、白关陆运、一带一路铁路专线等优质资源，提供从仓储、运输、清关到配送的全链路服务，为不同货量、不同时效需求的客户定制专属解决方案。
-                    </p>
-                    <p class="text-gray-500 mt-2">
-                        988 Карго специализируется на перевозке грузов из Китая в Россию, предлагая комплексные решения от хранения до доставки через ТИР-автоперевозки, сухопутные перевозки и железнодорожные линии "Один пояс, один путь".
-                    </p>
+                <div class="relative">
+                    <div class="text-center mb-6">
+                        <i class="fa-solid fa-truck-ramp-box text-cyan-600 text-4xl mb-4"></i>
+                        <h2 class="text-2xl font-bold text-cyan-800" data-lang="zh">关于我们</h2>
+                        <h2 class="text-2xl font-bold text-cyan-800" data-lang="ru">О нас</h2>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div data-lang="zh">
+                            <p class="text-gray-700 mb-4">
+                                988 Карго是专注于中国至俄罗斯跨境物流的专业服务商，凭借多年行业经验，整合TIR卡航、白关陆运、一带一路铁路专线等优质运输资源，构建了覆盖仓储、打包、运输、清关、配送的全链路服务体系。
+                            </p>
+                            <p class="text-gray-700 mb-4">
+                                我们深刻理解中俄贸易的物流痛点，为客户提供定制化解决方案，无论是大宗商品、电商货物还是特殊品类，都能保障货物安全、准时送达，助力中俄企业高效开展贸易合作。
+                            </p>
+                            <p class="text-gray-600">
+                                核心团队拥有丰富的中俄海关政策解读经验和物流实操能力，始终以客户需求为核心，提供24小时一对一专属服务，让跨境物流更简单、更可靠。
+                            </p>
+                        </div>
+                        <div data-lang="ru">
+                            <p class="text-gray-700 mb-4">
+                                988 Карго — профессиональный сервис по международной логистике между Китаем и Россией. На основе многолетнего опыта в отрасли мы интегрировали высококачественные транспортные ресурсы, такие как TIR-автоперевозки, сухопутные перевозки через белый таможенный коридор и железнодорожные линии "Один пояс, один путь", создав комплексную сервисную систему, охватывающую хранение, упаковку, транспортировку, таможенное оформление и доставку.
+                            </p>
+                            <p class="text-gray-700 mb-4">
+                                Мы глубоко понимаем ключевые проблемы логистики в торговле между Китаем и Россией и предлагаем индивидуальные решения. Независимо от того, являются ли грузы крупногабаритными, электронной коммерцией или специальными категориями, мы гарантируем безопасную и своевременную доставку, способствуя эффективному развитию торговых отношений между китайскими и российскими предприятиями.
+                            </p>
+                            <p class="text-gray-600">
+                                Наша ключевая команда обладает обширным опытом в интерпретации таможенных правил Китая и России, а также практическим опытом в логистике. Мы всегда фокусируемся на потребностях клиентов, предоставляя персональные услуги 24/7, делая международную логистику проще и надежнее.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- 核心产品展示 - TIR卡航直达 -->
+            <!-- 核心产品展示 - TIR卡航直达（保留TIR英文，双语详情） -->
             <div class="card md:col-span-1 sm:col-span-2 lg:col-span-1 p-6 flex flex-col product-gradient-tir">
                 <div class="relative">
                     <div class="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mb-4">
                         <i class="fa-solid fa-truck-fast text-blue-600 text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">TIR卡航直达</h3>
-                    <p class="text-blue-700 font-semibold mb-1">Прямая ТИР-автоперевозка</p>
-                    <div class="space-y-3 mt-4">
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-clock text-blue-500 w-6"></i>
-                            <span class="text-gray-700">时效：15-18天</span>
+                    <h3 class="text-xl font-bold text-gray-800" data-lang="zh">TIR卡航直达</h3>
+                    <h3 class="text-xl font-bold text-gray-800" data-lang="ru">Прямая TIR-автоперевозка</h3>
+                    <p class="text-blue-700 font-semibold mb-3">TIR Direct Shipping</p> <!-- 保留TIR英文 -->
+                    <div class="space-y-3 mt-2">
+                        <div class="flex items-start">
+                            <i class="fa-solid fa-clock text-blue-500 w-6 mt-1"></i>
+                            <div>
+                                <span class="text-gray-800 font-medium" data-lang="zh">时效：</span>
+                                <span class="text-gray-700" data-lang="zh">15-18天</span>
+                                <span class="text-gray-800 font-medium" data-lang="ru">Сроки доставки：</span>
+                                <span class="text-gray-700" data-lang="ru">15-18 дней</span>
+                            </div>
                         </div>
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-boxes-stacked text-blue-500 w-6"></i>
-                            <span class="text-gray-700">起收：单品10方起</span>
+                        <div class="flex items-start">
+                            <i class="fa-solid fa-boxes-stacked text-blue-500 w-6 mt-1"></i>
+                            <div>
+                                <span class="text-gray-800 font-medium" data-lang="zh">起收：</span>
+                                <span class="text-gray-700" data-lang="zh">单品10方起</span>
+                                <span class="text-gray-800 font-medium" data-lang="ru">Минимальный объем：</span>
+                                <span class="text-gray-700" data-lang="ru">от 10 кубов на единицу товара</span>
+                            </div>
                         </div>
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-star text-blue-500 w-6"></i>
-                            <span class="text-gray-700">优势：快速直达，通关无忧</span>
+                        <div class="flex items-start">
+                            <i class="fa-solid fa-star text-blue-500 w-6 mt-1"></i>
+                            <div>
+                                <span class="text-gray-800 font-medium" data-lang="zh">优势：</span>
+                                <span class="text-gray-700" data-lang="zh">快速直达，通关无忧，全程GPS追踪</span>
+                                <span class="text-gray-800 font-medium" data-lang="ru">Преимущества：</span>
+                                <span class="text-gray-700" data-lang="ru">Прямая доставка, беспроблемное таможенное оформление, GPS-трекинг на всем маршруте</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -122,20 +219,37 @@
                     <div class="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mb-4">
                         <i class="fa-solid fa-gauge-high text-green-600 text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">白关陆运快速时效版</h3>
-                    <p class="text-green-700 font-semibold mb-1">Быстрая сухопутная доставка</p>
-                    <div class="space-y-3 mt-4">
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-clock text-green-500 w-6"></i>
-                            <span class="text-gray-700">时效：18-20天</span>
+                    <h3 class="text-xl font-bold text-gray-800" data-lang="zh">白关陆运快速时效版</h3>
+                    <h3 class="text-xl font-bold text-gray-800" data-lang="ru">Быстрая сухопутная доставка (белый коридор)</h3>
+                    <p class="text-green-700 font-semibold mb-3" data-lang="zh">高时效优选</p>
+                    <p class="text-green-700 font-semibold mb-3" data-lang="ru">Опция для высоких сроков</p>
+                    <div class="space-y-3 mt-2">
+                        <div class="flex items-start">
+                            <i class="fa-solid fa-clock text-green-500 w-6 mt-1"></i>
+                            <div>
+                                <span class="text-gray-800 font-medium" data-lang="zh">时效：</span>
+                                <span class="text-gray-700" data-lang="zh">18-20天</span>
+                                <span class="text-gray-800 font-medium" data-lang="ru">Сроки доставки：</span>
+                                <span class="text-gray-700" data-lang="ru">18-20 дней</span>
+                            </div>
                         </div>
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-weight-hanging text-green-500 w-6"></i>
-                            <span class="text-gray-700">起收：5方或1吨起</span>
+                        <div class="flex items-start">
+                            <i class="fa-solid fa-weight-hanging text-green-500 w-6 mt-1"></i>
+                            <div>
+                                <span class="text-gray-800 font-medium" data-lang="zh">起收：</span>
+                                <span class="text-gray-700" data-lang="zh">5方或1吨起</span>
+                                <span class="text-gray-800 font-medium" data-lang="ru">Минимальный объем/вес：</span>
+                                <span class="text-gray-700" data-lang="ru">от 5 кубов или 1 тонны</span>
+                            </div>
                         </div>
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-star text-green-500 w-6"></i>
-                            <span class="text-gray-700">优势：兼顾成本与时效</span>
+                        <div class="flex items-start">
+                            <i class="fa-solid fa-star text-green-500 w-6 mt-1"></i>
+                            <div>
+                                <span class="text-gray-800 font-medium" data-lang="zh">优势：</span>
+                                <span class="text-gray-700" data-lang="zh">兼顾成本与时效，清关流程简化</span>
+                                <span class="text-gray-800 font-medium" data-lang="ru">Преимущества：</span>
+                                <span class="text-gray-700" data-lang="ru">Оптимальный баланс между стоимостью и сроками, упрощенный таможенный процесс</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -147,20 +261,37 @@
                     <div class="w-14 h-14 bg-amber-100 rounded-full flex items-center justify-center mb-4">
                         <i class="fa-solid fa-hand-holding-dollar text-amber-600 text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">白关陆运高性价比版</h3>
-                    <p class="text-amber-700 font-semibold mb-1">Экономичная сухопутная доставка</p>
-                    <div class="space-y-3 mt-4">
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-clock text-amber-500 w-6"></i>
-                            <span class="text-gray-700">时效：25-35天</span>
+                    <h3 class="text-xl font-bold text-gray-800" data-lang="zh">白关陆运高性价比版</h3>
+                    <h3 class="text-xl font-bold text-gray-800" data-lang="ru">Экономичная сухопутная доставка (белый коридор)</h3>
+                    <p class="text-amber-700 font-semibold mb-3" data-lang="zh">成本最优选择</p>
+                    <p class="text-amber-700 font-semibold mb-3" data-lang="ru">Оптимальный выбор по стоимости</p>
+                    <div class="space-y-3 mt-2">
+                        <div class="flex items-start">
+                            <i class="fa-solid fa-clock text-amber-500 w-6 mt-1"></i>
+                            <div>
+                                <span class="text-gray-800 font-medium" data-lang="zh">时效：</span>
+                                <span class="text-gray-700" data-lang="zh">25-35天</span>
+                                <span class="text-gray-800 font-medium" data-lang="ru">Сроки доставки：</span>
+                                <span class="text-gray-700" data-lang="ru">25-35 дней</span>
+                            </div>
                         </div>
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-weight-hanging text-amber-500 w-6"></i>
-                            <span class="text-gray-700">起收：500公斤起</span>
+                        <div class="flex items-start">
+                            <i class="fa-solid fa-weight-hanging text-amber-500 w-6 mt-1"></i>
+                            <div>
+                                <span class="text-gray-800 font-medium" data-lang="zh">起收：</span>
+                                <span class="text-gray-700" data-lang="zh">500公斤起</span>
+                                <span class="text-gray-800 font-medium" data-lang="ru">Минимальный вес：</span>
+                                <span class="text-gray-700" data-lang="ru">от 500 кг</span>
+                            </div>
                         </div>
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-star text-amber-500 w-6"></i>
-                            <span class="text-gray-700">优势：成本更具优势</span>
+                        <div class="flex items-start">
+                            <i class="fa-solid fa-star text-amber-500 w-6 mt-1"></i>
+                            <div>
+                                <span class="text-gray-800 font-medium" data-lang="zh">优势：</span>
+                                <span class="text-gray-700" data-lang="zh">运输成本更低，适合批量货物</span>
+                                <span class="text-gray-800 font-medium" data-lang="ru">Преимущества：</span>
+                                <span class="text-gray-700" data-lang="ru">Нижняя транспортная стоимость, идеально для партиальных грузов</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -172,31 +303,50 @@
                     <div class="w-14 h-14 bg-purple-100 rounded-full flex items-center justify-center mb-4">
                         <i class="fa-solid fa-train text-purple-600 text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">一带一路铁路专线</h3>
-                    <p class="text-purple-700 font-semibold mb-1">Железнодорожная линия "Один пояс, один путь"</p>
-                    <div class="space-y-3 mt-4">
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-clock text-purple-500 w-6"></i>
-                            <span class="text-gray-700">时效：35-45天</span>
+                    <h3 class="text-xl font-bold text-gray-800" data-lang="zh">一带一路铁路专线</h3>
+                    <h3 class="text-xl font-bold text-gray-800" data-lang="ru">Железнодорожная линия "Один пояс, один путь"</h3>
+                    <p class="text-purple-700 font-semibold mb-3" data-lang="zh">稳定规模化选择</p>
+                    <p class="text-purple-700 font-semibold mb-3" data-lang="ru">Стабильный масштабный выбор</p>
+                    <div class="space-y-3 mt-2">
+                        <div class="flex items-start">
+                            <i class="fa-solid fa-clock text-purple-500 w-6 mt-1"></i>
+                            <div>
+                                <span class="text-gray-800 font-medium" data-lang="zh">时效：</span>
+                                <span class="text-gray-700" data-lang="zh">35-45天</span>
+                                <span class="text-gray-800 font-medium" data-lang="ru">Сроки доставки：</span>
+                                <span class="text-gray-700" data-lang="ru">35-45 дней</span>
+                            </div>
                         </div>
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-cubes text-purple-500 w-6"></i>
-                            <span class="text-gray-700">起收：1吨起售（可拼柜/整柜）</span>
+                        <div class="flex items-start">
+                            <i class="fa-solid fa-cubes text-purple-500 w-6 mt-1"></i>
+                            <div>
+                                <span class="text-gray-800 font-medium" data-lang="zh">起收：</span>
+                                <span class="text-gray-700" data-lang="zh">1吨起售（可拼柜/整柜）</span>
+                                <span class="text-gray-800 font-medium" data-lang="ru">Минимальный вес：</span>
+                                <span class="text-gray-700" data-lang="ru">от 1 тонны (групповые/полные контейнеры)</span>
+                            </div>
                         </div>
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-star text-purple-500 w-6"></i>
-                            <span class="text-gray-700">优势：线路稳定，规模化操作</span>
+                        <div class="flex items-start">
+                            <i class="fa-solid fa-star text-purple-500 w-6 mt-1"></i>
+                            <div>
+                                <span class="text-gray-800 font-medium" data-lang="zh">优势：</span>
+                                <span class="text-gray-700" data-lang="zh">线路稳定，规模化操作，成本优势显著</span>
+                                <span class="text-gray-800 font-medium" data-lang="ru">Преимущества：</span>
+                                <span class="text-gray-700" data-lang="ru">Стабильные маршруты, масштабная работа, значительное преимущество в стоимости</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 时效对比图表 -->
+            <!-- 时效对比图表（双语标签） -->
             <div class="card md:col-span-2 p-8 flex flex-col">
                 <div class="absolute top-0 left-0 w-full h-full highlight-gradient-rose"></div>
                 <div class="relative flex-shrink-0">
-                    <h2 class="text-2xl font-bold text-rose-600 mb-4">
-                        <i class="fa-solid fa-stopwatch mr-2"></i>各方案时效对比
+                    <h2 class="text-2xl font-bold text-rose-700 mb-4">
+                        <i class="fa-solid fa-stopwatch mr-2"></i>
+                        <span data-lang="zh">各方案时效对比</span>
+                        <span data-lang="ru">Сравнение сроков доставки различных вариантов</span>
                     </h2>
                 </div>
                 <div class="relative flex-grow min-h-[250px] mt-4">
@@ -204,207 +354,323 @@
                 </div>
             </div>
 
-            <!-- 起收标准对比图表 -->
+            <!-- 起收标准对比图表（双语标签） -->
             <div class="card md:col-span-2 p-8 flex flex-col">
                 <div class="absolute top-0 left-0 w-full h-full highlight-gradient-indigo"></div>
                 <div class="relative flex-shrink-0">
-                    <h2 class="text-2xl font-bold text-indigo-600 mb-4">
-                        <i class="fa-solid fa-scale-balanced mr-2"></i>各方案起收标准对比（统一换算为公斤）
+                    <h2 class="text-2xl font-bold text-indigo-700 mb-4">
+                        <i class="fa-solid fa-scale-balanced mr-2"></i>
+                        <span data-lang="zh">各方案起收标准对比（统一换算为公斤）</span>
+                        <span data-lang="ru">Сравнение минимальных требований к грузу (в кг, единый расчет)</span>
                     </h2>
-                    <p class="text-sm text-gray-500">注：行业通用换算标准：1方=167公斤，仅作对比参考</p>
+                    <p class="text-sm text-gray-500" data-lang="zh">注：行业通用换算标准：1方=167公斤，仅作对比参考</p>
+                    <p class="text-sm text-gray-500" data-lang="ru">Примечание：Общеотраслевый стандарт перевода：1 куб = 167 кг，только для сравнения</p>
                 </div>
                 <div class="relative flex-grow min-h-[250px] mt-4">
                     <canvas id="minimumWeightChart"></canvas>
                 </div>
             </div>
 
-            <!-- 关键优势卡片 -->
-            <div class="card md:col-span-4 p-8">
-                <div class="absolute top-0 left-0 w-full h-full highlight-gradient-green"></div>
+            <!-- 俄罗斯客户专属服务（新增，强化俄语体验） -->
+            <div class="card md:col-span-4 p-8 bg-indigo-50 border-indigo-100">
                 <div class="relative">
-                    <h2 class="text-2xl font-bold text-green-600 mb-6">
-                        <i class="fa-solid fa-star mr-2"></i>988 Карго核心优势
-                    </h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <div class="bg-white bg-opacity-60 p-6 rounded-lg border border-green-100 text-center hover:shadow-md transition-shadow">
-                            <i class="fa-solid fa-shield-halved text-green-500 text-3xl mb-3"></i>
-                            <h3 class="font-semibold text-gray-800 text-lg mb-2">专业清关</h3>
-                            <p class="text-gray-600 text-sm">熟悉中俄海关政策，通关高效无忧</p>
+                    <div class="text-center mb-6">
+                        <i class="fa-solid fa-map-location-dot text-indigo-600 text-4xl mb-4"></i>
+                        <h2 class="text-2xl font-bold text-indigo-800" data-lang="zh">俄罗斯客户专属服务</h2>
+                        <h2 class="text-2xl font-bold text-indigo-800" data-lang="ru">Эксклюзивные услуги для российских клиентов</h2>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-indigo-100">
+                            <i class="fa-solid fa-language text-indigo-500 text-3xl mb-3"></i>
+                            <h3 class="font-bold text-lg text-gray-800" data-lang="zh">俄语专属客服</h3>
+                            <h3 class="font-bold text-lg text-gray-800" data-lang="ru">Персональные русскоязычные менеджеры</h3>
+                            <p class="text-gray-600 mt-2 text-sm" data-lang="zh">24小时俄语沟通，消除语言障碍</p>
+                            <p class="text-gray-600 mt-2 text-sm" data-lang="ru">Коммуникация на русском 24/7, устранение языковых барьеров</p>
                         </div>
-                        <div class="bg-white bg-opacity-60 p-6 rounded-lg border border-green-100 text-center hover:shadow-md transition-shadow">
-                            <i class="fa-solid fa-route text-green-500 text-3xl mb-3"></i>
-                            <h3 class="font-semibold text-gray-800 text-lg mb-2">线路稳定</h3>
-                            <p class="text-gray-600 text-sm">多年运营经验，运力资源充足</p>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-indigo-100">
+                            <i class="fa-solid fa-file-invoice text-indigo-500 text-3xl mb-3"></i>
+                            <h3 class="font-bold text-lg text-gray-800" data-lang="zh">本地合规支持</h3>
+                            <h3 class="font-bold text-lg text-gray-800" data-lang="ru">Поддержка локального соответствия требованиям</h3>
+                            <p class="text-gray-600 mt-2 text-sm" data-lang="zh">熟悉俄罗斯法规，确保清关合规</p>
+                            <p class="text-gray-600 mt-2 text-sm" data-lang="ru">Знание российского законодательства, гарантия таможенного соответствия</p>
                         </div>
-                        <div class="bg-white bg-opacity-60 p-6 rounded-lg border border-green-100 text-center hover:shadow-md transition-shadow">
-                            <i class="fa-solid fa-layer-group text-green-500 text-3xl mb-3"></i>
-                            <h3 class="font-semibold text-gray-800 text-lg mb-2">灵活适配</h3>
-                            <p class="text-gray-600 text-sm">多方案可选，满足不同货量时效需求</p>
-                        </div>
-                        <div class="bg-white bg-opacity-60 p-6 rounded-lg border border-green-100 text-center hover:shadow-md transition-shadow">
-                            <i class="fa-solid fa-headset text-green-500 text-3xl mb-3"></i>
-                            <h3 class="font-semibold text-gray-800 text-lg mb-2">全程服务</h3>
-                            <p class="text-gray-600 text-sm">24小时客服对接，物流状态实时追踪</p>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-indigo-100">
+                            <i class="fa-solid fa-truck-monster text-indigo-500 text-3xl mb-3"></i>
+                            <h3 class="font-bold text-lg text-gray-800" data-lang="zh">俄罗斯全境配送</h3>
+                            <h3 class="font-bold text-lg text-gray-800" data-lang="ru">Доставка по всей России</h3>
+                            <p class="text-gray-600 mt-2 text-sm" data-lang="zh">覆盖主要城市，末端配送无忧</p>
+                            <p class="text-gray-600 mt-2 text-sm" data-lang="ru">Охват главных городов, беспроблемная финальная доставка</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 行动号召卡片（修正WhatsApp号码） -->
+            <!-- 关键优势卡片（双语） -->
+            <div class="card md:col-span-4 p-8">
+                <div class="absolute top-0 left-0 w-full h-full highlight-gradient-green"></div>
+                <div class="relative">
+                    <h2 class="text-2xl font-bold text-green-700 mb-6">
+                        <i class="fa-solid fa-star mr-2"></i>
+                        <span data-lang="zh">988 Карго核心优势</span>
+                        <span data-lang="ru">Ключевые преимущества 988 Карго</span>
+                    </h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="bg-white bg-opacity-70 p-6 rounded-lg border border-green-100 text-center hover:shadow-md transition-shadow">
+                            <i class="fa-solid fa-shield-halved text-green-600 text-3xl mb-3"></i>
+                            <h3 class="font-semibold text-gray-800 text-lg mb-2" data-lang="zh">专业清关</h3>
+                            <h3 class="font-semibold text-gray-800 text-lg mb-2" data-lang="ru">Профессиональное таможенное оформление</h3>
+                            <p class="text-gray-600 text-sm" data-lang="zh">熟悉中俄海关政策，通关高效无忧</p>
+                            <p class="text-gray-600 text-sm" data-lang="ru">Знание таможенных правил Китая и России, быстрая очистка</p>
+                        </div>
+                        <div class="bg-white bg-opacity-70 p-6 rounded-lg border border-green-100 text-center hover:shadow-md transition-shadow">
+                            <i class="fa-solid fa-route text-green-600 text-3xl mb-3"></i>
+                            <h3 class="font-semibold text-gray-800 text-lg mb-2" data-lang="zh">线路稳定</h3>
+                            <h3 class="font-semibold text-gray-800 text-lg mb-2" data-lang="ru">Стабильные маршруты</h3>
+                            <p class="text-gray-600 text-sm" data-lang="zh">多年运营经验，运力资源充足</p>
+                            <p class="text-gray-600 text-sm" data-lang="ru">Многолетний опыт, достаточные транспортные ресурсы</p>
+                        </div>
+                        <div class="bg-white bg-opacity-70 p-6 rounded-lg border border-green-100 text-center hover:shadow-md transition-shadow">
+                            <i class="fa-solid fa-layer-group text-green-600 text-3xl mb-3"></i>
+                            <h3 class="font-semibold text-gray-800 text-lg mb-2" data-lang="zh">灵活适配</h3>
+                            <h3 class="font-semibold text-gray-800 text-lg mb-2" data-lang="ru">Гибкая адаптация</h3>
+                            <p class="text-gray-600 text-sm" data-lang="zh">多方案可选，满足不同货量时效需求</p>
+                            <p class="text-gray-600 text-sm" data-lang="ru">Множество вариантов, удовлетворение различных требований</p>
+                        </div>
+                        <div class="bg-white bg-opacity-70 p-6 rounded-lg border border-green-100 text-center hover:shadow-md transition-shadow">
+                            <i class="fa-solid fa-headset text-green-600 text-3xl mb-3"></i>
+                            <h3 class="font-semibold text-gray-800 text-lg mb-2" data-lang="zh">全程服务</h3>
+                            <h3 class="font-semibold text-gray-800 text-lg mb-2" data-lang="ru">Полный спектр услуг</h3>
+                            <p class="text-gray-600 text-sm" data-lang="zh">24小时客服对接，物流状态实时追踪</p>
+                            <p class="text-gray-600 text-sm" data-lang="ru">24/7 поддержка, реальный трекинг статуса груза</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 行动号召卡片（双语） -->
             <div class="card md:col-span-4 p-8 bg-amber-50 border-amber-100">
                 <div class="relative text-center">
-                    <h2 class="text-2xl font-bold text-amber-700 mb-4">欢迎选择我们，988 Карго为您服务！</h2>
-                    <p class="text-gray-700 mb-6">Для консультации и заказа услуг свяжитесь с нами:</p>
+                    <h2 class="text-2xl font-bold text-amber-700 mb-4" data-lang="zh">欢迎选择我们，988 Карго为您服务！</h2>
+                    <h2 class="text-2xl font-bold text-amber-700 mb-4" data-lang="ru">Выбирайте нас — 988 Карго готово обслужить вас！</h2>
+                    <p class="text-gray-700 mb-6" data-lang="zh">立即联系我们，获取专属物流方案</p>
+                    <p class="text-gray-700 mb-6" data-lang="ru">Свяжитесь с нами сейчас, чтобы получить индивидуальное логистическое решение</p>
                     <div class="flex flex-col sm:flex-row justify-center gap-6">
                         <a href="tel:+8615157938188" class="flex items-center justify-center bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 px-6 rounded-full transition-colors">
-                            <i class="fa-solid fa-phone mr-2"></i> 联系电话：+86 151 5793 8188
+                            <i class="fa-solid fa-phone mr-2"></i>
+                            <span data-lang="zh">联系电话：+86 151 5793 8188</span>
+                            <span data-lang="ru">Телефон：+86 151 5793 8188</span>
                         </a>
-                        <!-- 修正WhatsApp号码：+79636988988 -->
                         <a href="https://wa.me/79636988988" target="_blank" class="flex items-center justify-center bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-full transition-colors">
-                            <i class="fa-brands fa-whatsapp mr-2"></i> WhatsApp：+7 963 698 8988
+                            <i class="fa-brands fa-whatsapp mr-2"></i>
+                            <span data-lang="zh">WhatsApp：+7 963 698 8988</span>
+                            <span data-lang="ru">WhatsApp：+7 963 698 8988</span>
                         </a>
                         <a href="mailto:renlinguang988@gmail.com" class="flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-full transition-colors">
-                            <i class="fa-solid fa-envelope mr-2"></i> 邮箱：renlinguang988@gmail.com
+                            <i class="fa-solid fa-envelope mr-2"></i>
+                            <span data-lang="zh">邮箱：renlinguang988@gmail.com</span>
+                            <span data-lang="ru">Эл. почта：renlinguang988@gmail.com</span>
                         </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</body>
-</html>
-<script>
-    // 图表初始化通用函数
-    function initChart(ctx, config) {
-        return new Chart(ctx, {
-            ...config,
-            options: {
-                ...config.options,
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    ...config.options.plugins,
-                    tooltip: {
-                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                        titleColor: '#374151',
-                        bodyColor: '#4b5563',
-                        borderColor: '#e5e7eb',
-                        borderWidth: 1,
-                        padding: 12,
-                        boxPadding: 6,
-                        usePointStyle: true
-                    }
-                }
-            }
+
+    <script>
+        // 语言切换功能
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const targetLang = this.getAttribute('data-target');
+                // 切换HTML语言类
+                document.documentElement.className = `lang-${targetLang}`;
+                // 更新按钮状态
+                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                // 重新渲染图表（更新标签语言）
+                updateChartsLanguage(targetLang);
+            });
         });
-    }
 
-    // 时效对比图表
-    const timeCtx = document.getElementById('timeCompareChart').getContext('2d');
-    initChart(timeCtx, {
-        type: 'bar',
-        data: {
-            labels: ['TIR卡航直达', '白关陆运快速版', '白关陆运高性价比版', '一带一路铁路专线'],
-            datasets: [
-                {
-                    label: '最短时效（天）',
-                    data: [15, 18, 25, 35],
-                    backgroundColor: 'rgba(34, 197, 94, 0.6)',
-                    borderColor: 'rgba(34, 197, 94, 1)',
-                    borderWidth: 1,
-                    borderRadius: 4
-                },
-                {
-                    label: '最长时效（天）',
-                    data: [18, 20, 35, 45],
-                    backgroundColor: 'rgba(59, 130, 246, 0.6)',
-                    borderColor: 'rgba(59, 130, 246, 1)',
-                    borderWidth: 1,
-                    borderRadius: 4
-                }
-            ]
-        },
-        options: {
-            plugins: {
-                legend: { position: 'top' },
-                title: { display: false }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: { display: true, text: '时效（天）' },
-                    grid: { color: 'rgba(0,0,0,0.05)' }
-                },
-                x: { grid: { display: false } }
-            }
-        }
-    });
-
-    // 起收标准对比图表（统一换算为公斤）
-    const weightCtx = document.getElementById('minimumWeightChart').getContext('2d');
-    // 换算逻辑：1方=167公斤，各方案起收换算后的值
-    const weightData = [
-        10 * 167, // TIR卡航：10方 = 1670公斤
-        Math.max(5 * 167, 1000), // 白关快速版：5方=835公斤 vs 1吨=1000公斤，取最大值
-        500, // 白关高性价比版：500公斤
-        1000 // 一带一路：1吨=1000公斤
-    ];
-    initChart(weightCtx, {
-        type: 'bar',
-        data: {
-            labels: ['TIR卡航直达', '白关陆运快速版', '白关陆运高性价比版', '一带一路铁路专线'],
-            datasets: [{
-                label: '起收重量（公斤）',
-                data: weightData,
-                backgroundColor: [
-                    'rgba(59, 130, 246, 0.6)',
-                    'rgba(34, 197, 94, 0.6)',
-                    'rgba(245, 158, 11, 0.6)',
-                    'rgba(168, 85, 247, 0.6)'
-                ],
-                borderColor: [
-                    'rgba(59, 130, 246, 1)',
-                    'rgba(34, 197, 94, 1)',
-                    'rgba(245, 158, 11, 1)',
-                    'rgba(168, 85, 247, 1)'
-                ],
-                borderWidth: 1,
-                borderRadius: 4
-            }]
-        },
-        options: {
-            plugins: {
-                legend: { display: false },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            const originalLabels = [
-                                '10方（约1670公斤）',
-                                '5方（约835公斤）或1吨，取高值',
-                                '500公斤',
-                                '1吨（1000公斤）'
-                            ];
-                            return `起收标准：${originalLabels[context.dataIndex]}（${context.raw}公斤）`;
+        // 图表初始化通用函数
+        function initChart(ctx, config) {
+            return new Chart(ctx, {
+                ...config,
+                options: {
+                    ...config.options,
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        ...config.options.plugins,
+                        tooltip: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                            titleColor: '#374151',
+                            bodyColor: '#4b5563',
+                            borderColor: '#e5e7eb',
+                            borderWidth: 1,
+                            padding: 12,
+                            boxPadding: 6,
+                            usePointStyle: true
                         }
                     }
                 }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: { display: true, text: '起收重量（公斤）' },
-                    grid: { color: 'rgba(0,0,0,0.05)' }
-                },
-                x: { grid: { display: false } }
-            }
+            });
         }
-    });
 
-    // 窗口resize图表重绘
-    window.addEventListener('resize', function() {
-        document.querySelectorAll('canvas').forEach(canvas => {
-            const chart = Chart.getChart(canvas);
-            if (chart) chart.resize();
+        // 图表语言更新函数
+        let timeChart, weightChart;
+        function updateChartsLanguage(lang) {
+            // 时效对比图表标签
+            const timeLabelsZh = ['TIR卡航直达', '白关陆运快速版', '白关陆运高性价比版', '一带一路铁路专线'];
+            const timeLabelsRu = ['Прямая TIR-автоперевозка', 'Быстрая сухопутная доставка', 'Экономичная сухопутная доставка', 'Железнодорожная линия "Один пояс, один путь"'];
+            const timeDatasetsLabelsZh = ['最短时效（天）', '最长时效（天）'];
+            const timeDatasetsLabelsRu = ['Минимальный срок (дни)', 'Максимальный срок (дни)'];
+            const timeYAxisTitleZh = '时效（天）';
+            const timeYAxisTitleRu = 'Сроки доставки (дни)';
+
+            // 起收标准图表标签
+            const weightLabelsZh = ['TIR卡航直达', '白关陆运快速版', '白关陆运高性价比版', '一带一路铁路专线'];
+            const weightLabelsRu = ['Прямая TIR-автоперевозка', 'Быстрая сухопутная доставка', 'Экономичная сухопутная доставка', 'Железнодорожная линия "Один пояс, один путь"'];
+            const weightDatasetsLabelZh = '起收重量（公斤）';
+            const weightDatasetsLabelRu = 'Минимальный вес (кг)';
+            const weightYAxisTitleZh = '起收重量（公斤）';
+            const weightYAxisTitleRu = 'Минимальный вес (кг)';
+
+            // 更新时效图表
+            timeChart.data.labels = lang === 'zh' ? timeLabelsZh : timeLabelsRu;
+            timeChart.data.datasets[0].label = lang === 'zh' ? timeDatasetsLabelsZh[0] : timeDatasetsLabelsRu[0];
+            timeChart.data.datasets[1].label = lang === 'zh' ? timeDatasetsLabelsZh[1] : timeDatasetsLabelsRu[1];
+            timeChart.options.scales.y.title.text = lang === 'zh' ? timeYAxisTitleZh : timeYAxisTitleRu;
+            timeChart.update();
+
+            // 更新起收标准图表
+            weightChart.data.labels = lang === 'zh' ? weightLabelsZh : weightLabelsRu;
+            weightChart.data.datasets[0].label = lang === 'zh' ? weightDatasetsLabelZh : weightDatasetsLabelRu;
+            weightChart.options.scales.y.title.text = lang === 'zh' ? weightYAxisTitleZh : weightYAxisTitleRu;
+            // 更新tooltip标签
+            weightChart.options.plugins.tooltip.callbacks.label = function(context) {
+                const originalLabelsZh = [
+                    '10方（约1670公斤）',
+                    '5方（约835公斤）或1吨，取高值',
+                    '500公斤',
+                    '1吨（1000公斤）'
+                ];
+                const originalLabelsRu = [
+                    '10 кубов (около 1670 кг)',
+                    '5 кубов (около 835 кг) или 1 тонна, выбирается большее значение',
+                    '500 кг',
+                    '1 тонна (1000 кг)'
+                ];
+                const labels = lang === 'zh' ? originalLabelsZh : originalLabelsRu;
+                return `${lang === 'zh' ? '起收标准：' : 'Минимальные требования：'}${labels[context.dataIndex]}（${context.raw} ${lang === 'zh' ? '公斤' : 'кг'}）`;
+            };
+            weightChart.update();
+        }
+
+        // 初始化时效对比图表
+        const timeCtx = document.getElementById('timeCompareChart').getContext('2d');
+        timeChart = initChart(timeCtx, {
+            type: 'bar',
+            data: {
+                labels: ['TIR卡航直达', '白关陆运快速版', '白关陆运高性价比版', '一带一路铁路专线'],
+                datasets: [
+                    {
+                        label: '最短时效（天）',
+                        data: [15, 18, 25, 35],
+                        backgroundColor: 'rgba(22, 163, 74, 0.7)',
+                        borderColor: 'rgba(22, 163, 74, 1)',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    },
+                    {
+                        label: '最长时效（天）',
+                        data: [18, 20, 35, 45],
+                        backgroundColor: 'rgba(22, 93, 255, 0.7)',
+                        borderColor: 'rgba(22, 93, 255, 1)',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }
+                ]
+            },
+            options: {
+                plugins: {
+                    legend: { position: 'top' },
+                    title: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: '时效（天）' },
+                        grid: { color: 'rgba(0,0,0,0.05)' }
+                    },
+                    x: { grid: { display: false } }
+                }
+            }
         });
-    });
-</script>
+
+        // 初始化起收标准对比图表（统一换算为公斤）
+        const weightCtx = document.getElementById('minimumWeightChart').getContext('2d');
+        const weightData = [
+            10 * 167, // TIR卡航：10方 = 1670公斤
+            Math.max(5 * 167, 1000), // 白关快速版：5方=835公斤 vs 1吨=1000公斤，取最大值
+            500, // 白关高性价比版：500公斤
+            1000 // 一带一路：1吨=1000公斤
+        ];
+        weightChart = initChart(weightCtx, {
+            type: 'bar',
+            data: {
+                labels: ['TIR卡航直达', '白关陆运快速版', '白关陆运高性价比版', '一带一路铁路专线'],
+                datasets: [{
+                    label: '起收重量（公斤）',
+                    data: weightData,
+                    backgroundColor: [
+                        'rgba(22, 93, 255, 0.7)',
+                        'rgba(22, 163, 74, 0.7)',
+                        'rgba(217, 119, 6, 0.7)',
+                        'rgba(147, 51, 234, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(22, 93, 255, 1)',
+                        'rgba(22, 163, 74, 1)',
+                        'rgba(217, 119, 6, 1)',
+                        'rgba(147, 51, 234, 1)'
+                    ],
+                    borderWidth: 1,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const originalLabels = [
+                                    '10方（约1670公斤）',
+                                    '5方（约835公斤）或1吨，取高值',
+                                    '500公斤',
+                                    '1吨（1000公斤）'
+                                ];
+                                return `起收标准：${originalLabels[context.dataIndex]}（${context.raw} 公斤）`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: '起收重量（公斤）' },
+                        grid: { color: 'rgba(0,0,0,0.05)' }
+                    },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        // 窗口resize图表重绘
+        window.addEventListener('resize', function() {
+            if (timeChart) timeChart.resize();
+            if (weightChart) weightChart.resize();
+        });
+    </script>
+</body>
+</html>
