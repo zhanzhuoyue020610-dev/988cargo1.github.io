@@ -176,7 +176,7 @@
                 </div>
             </div>
 
-            <!-- 品牌介绍卡片（增强背景色，三语扩充） -->
+            <!-- 品牌介绍卡片（调整布局：单语言内容占满宽度） -->
             <div class="card md:col-span-4 p-8">
                 <div class="absolute top-0 left-0 w-full h-full highlight-gradient-cyan"></div>
                 <div class="relative">
@@ -186,7 +186,8 @@
                         <h2 class="text-2xl font-bold text-cyan-800" data-lang="ru">О нас</h2>
                         <h2 class="text-2xl font-bold text-cyan-800" data-lang="en">About us</h2>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- 调整grid为col-span-1，让单语言内容占满卡片宽度 -->
+                    <div class="grid grid-cols-1 gap-8 max-w-3xl mx-auto">
                         <div data-lang="zh">
                             <p class="text-gray-700 mb-4">
                                 988 Карго是专注于中国至俄罗斯跨境物流的专业服务商，凭借多年行业经验，整合TIR卡航、白关陆运、一带一路铁路专线等优质运输资源，构建了覆盖仓储、打包、运输、清关、配送的全链路服务体系。
